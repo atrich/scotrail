@@ -61,6 +61,9 @@ function autocomplete(inp, arr) {
         if (currentFocus > -1) {
           /*and simulate a click on the "active" item:*/
           if (x) x[currentFocus].click();
+          else {
+            addInputToPlaylist()
+          } 
         }
       }
   });
@@ -95,7 +98,47 @@ function autocomplete(inp, arr) {
       closeAllLists(e.target);
   });
 }
+function addInputToPlaylist() {
+  var text = document.getElementById("myInput");
+  var list = document.getElementById("playlist");
+  p = document.createElement("p");
+  p.innerHTML = text.value;
+  list.appendChild(p);
+  text.value = null;
+}
+function resetPlaylist() {
+  var list = document.getElementById("playlist");
+  list.innerHTML = '<button type="button" onclick="resetPlaylist()">Reset</button><button type="button" onclick="playPlaylist()">Play</button>';
+}
+function playPlaylist() {
+  var list = document.getElementById("playlist");
+  var playlist = [];
+  var items = list.getElementsByTagName("p");
+  for (var i = 0; i < items.length; i++)
+  {
+    playlist.push(captions.find(x => x.caption == items[i].innerText).filename);
+  }
 
-fetch('./captions.json')
-  .then((response) => response.json())
-  .then((json) => autocomplete(document.getElementById("myInput"), json));
+  var play = function() {
+    var file = playlist.shift();
+    if (file)
+    {
+      var p = new Howl({
+        src: './audio/' + file,
+        html5: true,
+        onend: function() {
+          // move on to the next item in the list
+          play();
+        }});
+
+      p.play();
+    }
+  }
+
+  play();
+}
+
+autocomplete(document.getElementById("myInput"), captions);
+//fetch('./captions.json')
+//  .then((response) => response.json())
+//  .then((json) => autocomplete(document.getElementById("myInput"), json));

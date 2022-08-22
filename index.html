@@ -8,7 +8,23 @@
     * {
       box-sizing: border-box;
     }
+
+    .content {
+      width: 970px;
+      margin: auto;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .child {
+      width: 50%;
+    }
     
+    h2 {
+      width: 100%;
+      text-align: center;
+    }
+
     body {
       font: 16px Arial;  
     }
@@ -32,6 +48,12 @@
     }
     
     input[type=submit] {
+      background-color: DodgerBlue;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    input[type=button] {
       background-color: DodgerBlue;
       color: #fff;
       cursor: pointer;
@@ -70,20 +92,23 @@
 </head>
 <body>
   <h2>Scotrail Renderer</h2>
-  
-  <p>Start typing:</p>
-  
-  <!--Make sure the form has the autocomplete function switched off:-->
-  <form autocomplete="off" action="todo">
-    <div class="autocomplete" style="width:300px;">
-      <input id="myInput" type="text" name="audioToRender" placeholder="Start typing...">
+  <div class="content">
+    
+    <!--Make sure the form has the autocomplete function switched off:-->
+    <div class="child">
+      <div class="autocomplete" style="width:300px;">
+        <input id="myInput" type="text" name="audioToRender" placeholder="Start typing...">
+      </div>
+      <button type="button" onclick="addInputToPlaylist()">Add</button>
     </div>
-    <input type="submit">
-  </form>
+    <div id="playlist" class="child">
+      <button type="button" onclick="resetPlaylist()">Reset</button>
+      <button type="button" onclick="playPlaylist()">Play</button>
+    </div>
+  </div>
 
-
-
+  <script src="./howler.min.js"></script> <!-- https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js -->
+  <script src="./captions.js"></script>
   <script src="./index.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 </body>
 </html>
